@@ -8,8 +8,5 @@ void setup() {
 }
 
 void loop() {
-   motor.startMotor();
-   delay(3000);
-   motor.stopMotor();
-   delay(3000);
+   
 }

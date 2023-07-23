@@ -88,7 +88,7 @@ void DCMotorController::startMotorOpenLoop()
 
 void IRAM_ATTR DCMotorController::addPulse()
 {
-    
+  
 }
 
 void DCMotorController::stopMotor()
