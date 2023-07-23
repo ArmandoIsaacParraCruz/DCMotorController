@@ -1,6 +1,9 @@
 #ifndef DCMotorController_h
 #define DCMotorController_h
 #include <Arduino.h>
+#include "direct_pin_read.h"
+#include "interrupt_config.h"
+#include "interrupt_pins.h"
 
 
 enum class MotorDirection{Forward, Reverse};
