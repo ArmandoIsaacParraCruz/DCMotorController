@@ -1,13 +1,12 @@
 #ifndef DCMotorController_h
 #define DCMotorController_h
 #include <Arduino.h>
+#include <TimerOne.h>
 #include "MyEncoder.h"
-
-#define ENCODER_USE_INTERRUPTS
 
 enum class MotorDirection{Forward, Reverse};
 enum class ControlMode{OpenLoop, ClosedLoop};
-enum class EncoderMode{Velocity, Position};
+
 
 class DCMotorController
 {

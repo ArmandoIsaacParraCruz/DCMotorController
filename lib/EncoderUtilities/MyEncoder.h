@@ -10,21 +10,24 @@
 #define ENCODER_ISR_ATTR
 #endif
 
+enum class EncoderMode{Velocity, Position};
 
 typedef struct {
-    double pulseCounter;
+    EncoderMode encoderMode;
+    volatile double position;
+    volatile double velocity;
+    volatile double pulseCounter;
 } EncoderInfo;
-
 
 class MyEncoder{
     public:
         MyEncoder(int8_t encoderPhaseA, int8_t encoderPhaseB);
 
     private:
-    static EncoderInfo _encoderInfo[CORE_NUM_INTERRUPT];
+    static EncoderInfo _encoderInfo[];
     #if defined(IRAM_ATTR)
 	    static IRAM_ATTR void update(EncoderInfo &encoderInfo){
-            //Serial.println("Interruption ocurried");
+            Serial.println("Interruption ocurried");
              ++encoderInfo.pulseCounter;
         }
     #else
@@ -522,7 +525,13 @@ class MyEncoder{
                         return 0;
         }
         return 1;
-    } 
+    }
+
+
+
+    
+
+       
 };
 
 #endif 

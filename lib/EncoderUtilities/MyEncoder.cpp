@@ -20,3 +20,4 @@ MyEncoder::MyEncoder(int8_t encoderPhaseA, int8_t encoderPhaseB)
     
 }
 
+EncoderInfo MyEncoder::_encoderInfo[CORE_NUM_INTERRUPT];
