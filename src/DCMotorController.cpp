@@ -15,12 +15,26 @@ DCMotorController::DCMotorController(int8_t pinMotorA, int8_t pinMotorB)
     _statusOutputLimits = _OFF;
     _statusPWMControl = _OFF;
     _statusPIDAutoupdate = _OFF;
+    _myEncoder = nullptr;
 }
 
-void DCMotorController::setEncoderPins(int8_t encoderPhaseA, int8_t encoderPhaseB)
+
+MyEncoder* DCMotorController::instanceEncoder(int8_t& encoderPhaseA, int8_t& encoderPhaseB, int8_t& interruptMode)
 {
-    pinMode(encoderPhaseA, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(encoderPhaseA), addPulse, RISING);
+    MyEncoder* encoderInstance = new MyEncoder{encoderPhaseA, encoderPhaseB};
+    return encoderInstance;
+}
+
+bool DCMotorController::setEncoderPins(int8_t encoderPhaseA, int8_t encoderPhaseB, int8_t interruptMode)
+{
+    if(_myEncoder == nullptr) {
+        _myEncoder = instanceEncoder(encoderPhaseA, encoderPhaseB, interruptMode);
+        Serial.println("An encoder was configurated");
+        return true;
+    } else {
+        Serial.println("An error ocurried: DCMotorController::setEncoderPins");
+        return false;
+    }
 }
 
 void DCMotorController::setPulserPerRevolution(float pulsesPerRevolution)
@@ -86,10 +100,7 @@ void DCMotorController::startMotorOpenLoop()
     }
 }
 
-void IRAM_ATTR DCMotorController::addPulse()
-{
-  
-}
+
 
 void DCMotorController::stopMotor()
 {

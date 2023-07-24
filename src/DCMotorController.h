@@ -1,14 +1,13 @@
 #ifndef DCMotorController_h
 #define DCMotorController_h
 #include <Arduino.h>
-#include "direct_pin_read.h"
-#include "interrupt_config.h"
-#include "interrupt_pins.h"
+#include "MyEncoder.h"
 
+#define ENCODER_USE_INTERRUPTS
 
 enum class MotorDirection{Forward, Reverse};
 enum class ControlMode{OpenLoop, ClosedLoop};
-
+enum class EncoderMode{Velocity, Position};
 
 class DCMotorController
 {
@@ -40,11 +39,13 @@ class DCMotorController
 
         void startMotorOpenLoop();
 
-        static IRAM_ATTR void addPulse();
+        MyEncoder* _myEncoder ;
 
+        MyEncoder* instanceEncoder(int8_t& encoderPhaseA, int8_t& encoderPhaseB, int8_t& interruptMode);
     public:
         DCMotorController(int8_t pinMotorA, int8_t pinMotorB = _UNDEFINED);
-        void setEncoderPins(int8_t encoderPhaseA, int8_t encoderPhaseB = _UNDEFINED);
+        bool setEncoderPins(int8_t encoderPhaseA, int8_t encoderPhaseB = _UNDEFINED, int8_t interruptMode = RISING);
+        //TODO make the destructor of encoder
         void setPulserPerRevolution(float pulsesPerRevolution);
         void changeControlMode(ControlMode controlMode);
         void changeMotorDirection(MotorDirection motorDirection);
